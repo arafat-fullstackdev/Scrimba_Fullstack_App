@@ -24,14 +24,30 @@ Challenge:
 
 */
 import http from 'node:http'
+import path from 'node:path'
+import { testPath } from '../utils/test'
 
 const PORT = 7000
 
-const server = http.createServer((req,res)=>{
- res.statusCode = 200
- res.setHeader('Content-Type', 'text/html')
+const __dirname = import.meta.dirname
 
-    res.end('<html><h1>The server is working</h1></html>')
+const server = http.createServer((req,res)=>{
+
+  const absPathResource = path.join(__dirname, 'public', 'index.html')
+  const relPathResource = path.join('public', 'index.html')
+  console.log('absolute :',absPathResource)
+  console.log('relative :',relPathResource)
+  testPath()
+  res.statusCode = 200
+  res.setHeader('Content-Type', 'text/html')
+  res.end()
+
+// res.setHeader('Access-Control-Alow-Origin', '*')
+// res.setHeader('Access-Control-Alow-Origin', 'GET')
+
+//  res.writeHead(200 ,{'Content-Type': 'text/html', 'Access-Control-Alow-Method': 'GET'})
+
+    res.end('<html><h1>The server is working!!!</h1></html>')
 })
 
 server.listen(PORT,()=> console.log(`The server is running on port: ${PORT}`))
